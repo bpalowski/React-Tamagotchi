@@ -13,6 +13,7 @@ class Stats extends React.Component{
      this.handleFoodLevel = this.handleFoodLevel.bind(this);
      this.handleActivityLevel = this.handleActivityLevel.bind(this);
      this.handleSleepLevel = this.handleSleepLevel.bind(this);
+     this.startGame = this.startGame.bind(this);
   }
 
   handleFoodLevel() {
@@ -38,14 +39,21 @@ class Stats extends React.Component{
 
   startGame(){
     const countDown = setInterval(() => {
+
       var lowerFoodLevel = this.state.foodLevel;
       lowerFoodLevel -= 1;
-      this.setState({foodLevel: lowerFoodLevel});
+
+      var lowerActivityLevel = this.state.activityLevel;
+      lowerActivityLevel -= 1;
+
+      var lowerSleepLevel = this.state.sleepLevel;
+      lowerSleepLevel -= 1;
+
+      this.setState({foodLevel: lowerFoodLevel, activityLevel: lowerActivityLevel, sleepLevel: lowerSleepLevel});
+
+    }, 100);
     }
 
-
-  )
-  }
 
 
 render(){
@@ -55,6 +63,7 @@ render(){
     <div>
       <h1>TxvdsbSbdbgdlkhvds lkvsd hkshv</h1>
         <p id="test"></p>
+        <p onClick={this.startGame}>STARTTTTTT</p>
         <p onClick={this.handleFoodLevel}>Food</p>
         <p onClick={this.handleActivityLevel}>Activity</p>
         <p onClick={this.handleSleepLevel}>Sleep</p>
