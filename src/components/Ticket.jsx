@@ -13,7 +13,7 @@ function Ticket(props){
   // };
 
   return (
-  // <div style={myStyledComponentStyles}>
+    // <div style={myStyledComponentStyles}>
     <div>
 
       <style jsx global>{`
