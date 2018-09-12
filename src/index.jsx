@@ -16,6 +16,7 @@ const render = (Component) => {
   );
 };
 
+
 render(App);
 
 /*eslint-disable */
