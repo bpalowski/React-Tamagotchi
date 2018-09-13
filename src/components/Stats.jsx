@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Sleep from './Sleep';
+import Food from './Food';
+import Activity from './Activity';
 //import { Link } from 'react-router-dom';
 
 class Stats extends React.Component{
@@ -8,37 +12,36 @@ class Stats extends React.Component{
     this.state = {
       foodLevel: 100,
       activityLevel: 100,
-      sleepLevel: 100
+      sleepLevel: 100,
+      dead: "Alive and well",
     };
-     this.handleFoodLevel = this.handleFoodLevel.bind(this);
-     this.handleActivityLevel = this.handleActivityLevel.bind(this);
-     this.handleSleepLevel = this.handleSleepLevel.bind(this);
-     this.startGame = this.startGame.bind(this);
+    this.handleFoodLevel = this.handleFoodLevel.bind(this);
+    this.handleActivityLevel = this.handleActivityLevel.bind(this);
+    this.handleSleepLevel = this.handleSleepLevel.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   handleFoodLevel() {
     var newFoodLevel = this.state.foodLevel;
     newFoodLevel += 1;
     this.setState({foodLevel: newFoodLevel});
-    console.log("FOOD:" + this.state.foodLevel);
   }
 
   handleActivityLevel() {
     var newActivityLevel = this.state.activityLevel;
     newActivityLevel += 1;
     this.setState({activityLevel: newActivityLevel});
-    console.log("Activity" + this.state.activityLevel);
   }
 
   handleSleepLevel() {
     var newSleepLevel = this.state.sleepLevel;
     newSleepLevel += 1;
     this.setState({sleepLevel: newSleepLevel});
-    console.log("SLEEP:" + this.state.sleepLevel);
   }
 
   startGame(){
     const countDown = setInterval(() => {
+      var aliveOrDead = this.state.dead;
 
       var lowerFoodLevel = this.state.foodLevel;
       lowerFoodLevel -= 1;
@@ -49,28 +52,41 @@ class Stats extends React.Component{
       var lowerSleepLevel = this.state.sleepLevel;
       lowerSleepLevel -= 1;
 
-      this.setState({foodLevel: lowerFoodLevel, activityLevel: lowerActivityLevel, sleepLevel: lowerSleepLevel});
+      if (this.state.foodLevel === 1) {
+        clearInterval(countDown);
+        aliveOrDead = "Ate to much or not enough? You be dead fool!"
+      } else if (this.state.activityLevel === 1) {
+        clearInterval(countDown);
+        aliveOrDead = "Not enough activity. Gain weight and died!"
+      } else if (this.state.sleepLevel === 1) {
+        clearInterval(countDown);
+        aliveOrDead = "Died from lack of sleep"
+      }
+
+      this.setState({foodLevel: lowerFoodLevel, activityLevel: lowerActivityLevel, sleepLevel: lowerSleepLevel, dead: aliveOrDead});
 
     }, 100);
-    }
+  }
 
 
 
-render(){
+  render(){
 
 
-  return (
-    <div>
-      <h1>TxvdsbSbdbgdlkhvds lkvsd hkshv</h1>
-        <p id="test"></p>
+    return (
+      <div>
+        <h1>TxvdsbSbdbgdlkhvds lkvsd hkshv</h1>
+
+
         <p onClick={this.startGame}>STARTTTTTT</p>
-        <p onClick={this.handleFoodLevel}>Food</p>
-        <p onClick={this.handleActivityLevel}>Activity</p>
-        <p onClick={this.handleSleepLevel}>Sleep</p>
+        <p>{this.state.foodLevel}</p><span><Food addFood={this.handleFoodLevel}/></span>
+        <p>{this.state.activityLevel}</p><span><Activity addActivity={this.handleActivityLevel}/></span>
+        <p>{this.state.sleepLevel}</p><span><Sleep addSleep={this.handleSleepLevel}/></span>
+        <p>{this.state.dead}</p>
 
-    </div>
-  );
-}
+      </div>
+    );
+  }
 }
 
 export default Stats;
